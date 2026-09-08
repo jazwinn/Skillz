@@ -4,10 +4,15 @@
     {
       "name": "claude-plugins-official",
       "source": "anthropics/claude-plugins-official"
+    },
+    {
+      "name": "claude-code-plugins",
+      "source": "anthropics/claude-code"
     }
   ],
   "plugins": [
     "clangd-lsp@claude-plugins-official",
-    "skill-creator@claude-plugins-official"
+    "skill-creator@claude-plugins-official",
+    "frontend-design@claude-code-plugins"
   ]
 }

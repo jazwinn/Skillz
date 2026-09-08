@@ -53,6 +53,7 @@ Third-party plugins aren't vendored — they're pinned by reference in
 | --- | --- |
 | `clangd-lsp` | `anthropics/claude-plugins-official` |
 | `skill-creator` | `anthropics/claude-plugins-official` |
+| `frontend-design` | `anthropics/claude-code` |
 
 ## Adding things
 
