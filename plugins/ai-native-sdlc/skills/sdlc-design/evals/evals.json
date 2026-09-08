@@ -1,0 +1,43 @@
+{
+  "skill_name": "sdlc-design",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "The intent for the claim-status panel is approved. Write the spec.",
+      "expected_output": "Reads intent.md, writes spec.md with testable requirements, policy findings mapped to owners, and every open question answered or carried forward",
+      "expectations": [
+        "Requirements are numbered and testable",
+        "Each policy finding names a deciding owner",
+        "Every open question from the intent is answered or explicitly carried forward",
+        "Out of scope is populated"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Just sketch out how the status endpoint should work, nothing formal.",
+      "expected_output": "Still produces a spec covering requirements and design together, rather than a design-only sketch",
+      "expectations": [
+        "Produces requirements alongside the design",
+        "Does not skip the policy pass"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor this CMake target to use ninja generators and fix the include paths.",
+      "expected_output": "Answers directly without consulting sdlc-design; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-design skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "What's the difference between std::move and std::forward?",
+      "expected_output": "Answers directly without consulting sdlc-design; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-design skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    }
+  ]
+}

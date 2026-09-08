@@ -1,0 +1,42 @@
+{
+  "skill_name": "sdlc-build",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Spec's approved for the claim-status panel. Let's build it.",
+      "expected_output": "Produces plan.md with files, ordered steps, repo-specific risks and proof, and waits for acceptance before writing code",
+      "expectations": [
+        "plan.md contains all four sections",
+        "File paths are verified against the repo",
+        "Risks are specific to this repo, not generic",
+        "No implementation starts before the plan is accepted"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "It's a two-line change, just make it.",
+      "expected_output": "Still states what changes and why before editing, rather than silently skipping the plan",
+      "expectations": [
+        "States the files that change and the risk before editing"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor this CMake target to use ninja generators and fix the include paths.",
+      "expected_output": "Answers directly without consulting sdlc-build; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-build skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "What's the difference between std::move and std::forward?",
+      "expected_output": "Answers directly without consulting sdlc-build; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-build skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 name: sdlc-build
-description: Stage 3 of the AI-native SDLC — turn an approved spec.md into an accepted plan.md before any code is written, and keep institutional knowledge in CLAUDE.md so sessions start informed. Use when implementation is about to start, when the user asks to "plan the work", "implement the spec" or "write CLAUDE.md", when setting up parallel worktree sessions, or when a repo needs its protected paths and build conventions written down.
+description: "Stage 3 of the AI-native SDLC: turn an approved spec.md into an accepted plan.md before any code is written, using the bundled assets/plan.md template, and keep institutional knowledge in CLAUDE.md so every session starts informed. Make sure to use this skill whenever implementation is about to start, whenever the user says 'plan the work', 'implement the spec', 'start building' or 'write CLAUDE.md', whenever parallel worktree sessions are being set up, and whenever a repository needs its protected paths and build conventions written down. Use it before writing code even when the change looks small enough to skip planning."
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
 ---
 
@@ -11,6 +11,9 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
 changes are cheap — editing a document instead of rewriting a branch.
 
 ## plan.md
+
+Start from `assets/plan.md` in this skill directory; `assets/CLAUDE.md` is the
+template for the CLAUDE.md section further down.
 
 ```markdown
 # Plan: <title>

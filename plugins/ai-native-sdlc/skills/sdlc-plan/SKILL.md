@@ -1,6 +1,6 @@
 ---
 name: sdlc-plan
-description: Stage 1 of the AI-native SDLC — capture a raw idea, request or bug report as a version-controlled intent.md proto-spec in the originator's own words. Use when someone brings an unformed idea, feature request, complaint or problem and it needs writing down before anyone designs it; when the user says "capture this", "write it up", "file an intent"; or when a diagnosis from the maintain stage needs to re-enter the pipeline as new work.
+description: "Stage 1 of the AI-native SDLC: capture a raw idea, request or bug report as a version-controlled intent.md proto-spec in the originator's own words, using the bundled assets/intent.md template. Make sure to use this skill whenever someone brings an unformed idea, feature request, complaint or problem that needs writing down before anyone designs it, or says 'capture this', 'write it up' or 'file an intent' - and whenever a maintain-stage diagnosis needs to re-enter the pipeline as new work. Prefer this over jumping straight into a spec or into code."
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
 ---
 
@@ -13,6 +13,9 @@ stop ideas from waiting for someone with time to write them up.
 Write to `docs/sdlc/<slug>/intent.md` unless the repo has its own convention.
 
 ## The five sections
+
+Start from the bundled template: read `assets/intent.md` in this skill directory and
+fill it in. The five sections it contains:
 
 ```markdown
 # <Short title>

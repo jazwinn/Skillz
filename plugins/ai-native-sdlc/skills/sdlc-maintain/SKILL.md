@@ -1,6 +1,6 @@
 ---
 name: sdlc-maintain
-description: Stage 6 of the AI-native SDLC — close the loop with deterministic detection that invokes Claude only when a metric leaves its control band, tiered 1/2/3-sigma responses from log to read-only diagnosis to proposing a PR, scheduled security scans whose findings are validated before reporting, and on-call response in chat. Use when setting up monitoring that triggers an agent, defining control bands or runbooks, responding to a production incident or alert, or scheduling recurring security scans.
+description: "Stage 6 of the AI-native SDLC: close the loop with deterministic detection that invokes Claude only when a metric leaves its control band, tiered 1/2/3-sigma responses from log to read-only diagnosis to proposing a pull request, and scheduled security scans whose findings are validated before reporting. Make sure to use this skill whenever monitoring that triggers an agent is being set up, whenever control bands or runbooks are being defined, whenever the user is responding to a production incident or alert, and whenever they mention on-call, SLOs, error rates, error budgets or recurring security scans - even if they never mention the SDLC."
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
@@ -18,6 +18,8 @@ window, compares against a baseline with **Western Electric or similar rules**, 
 invokes Claude only on a breach. Never poll by asking a model whether things look fine.
 
 ## Response tiers
+
+Start from `assets/bands.yaml` in this skill directory.
 
 ```yaml
 # bands.yaml - CI test failure rate

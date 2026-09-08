@@ -1,0 +1,44 @@
+{
+  "skill_name": "sdlc-maintain",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "CI test failures have been climbing for a week. Set up something that tells us before it gets bad.",
+      "expected_output": "Defines control bands with a deterministic detector and tiered 1/2/3-sigma responses",
+      "expectations": [
+        "Detection is a scheduled script, not a model polling",
+        "Each band grants only the authority its tier allows",
+        "3-sigma routes through a pull request or a pre-approved runbook"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Error rate spiked at 02:00. What happened?",
+      "expected_output": "Diagnoses read-only, reporting what moved, what changed, likely cause with confidence, and what was not checked",
+      "expectations": [
+        "Reports evidence rather than reassurance",
+        "States confidence and what would confirm the hypothesis",
+        "Says what it did not check",
+        "Makes no production change"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor this CMake target to use ninja generators and fix the include paths.",
+      "expected_output": "Answers directly without consulting sdlc-maintain; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-maintain skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "What's the difference between std::move and std::forward?",
+      "expected_output": "Answers directly without consulting sdlc-maintain; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-maintain skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    }
+  ]
+}

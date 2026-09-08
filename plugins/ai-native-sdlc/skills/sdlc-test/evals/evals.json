@@ -1,0 +1,43 @@
+{
+  "skill_name": "sdlc-test",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Users report the status panel shows stale data after a claim updates. Fix it.",
+      "expected_output": "Writes a failing test first, sets the fix lock, fixes the source without touching the test, then reruns",
+      "expectations": [
+        "Writes a test that fails before the fix",
+        "Does not edit the test while fixing the source",
+        "Runs the suite and pastes real output",
+        "Never skips or deletes a failing test"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I think that's done, ship it.",
+      "expected_output": "Runs tests, build and lint and shows the output before agreeing it is done",
+      "expectations": [
+        "Runs the verification loop before agreeing",
+        "Pastes actual command output rather than asserting success"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor this CMake target to use ninja generators and fix the include paths.",
+      "expected_output": "Answers directly without consulting sdlc-test; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-test skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "What's the difference between std::move and std::forward?",
+      "expected_output": "Answers directly without consulting sdlc-test; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-test skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    }
+  ]
+}

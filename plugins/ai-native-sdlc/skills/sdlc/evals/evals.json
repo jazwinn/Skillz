@@ -1,0 +1,43 @@
+{
+  "skill_name": "sdlc",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We keep losing track of where features are between design and release. Can you set up a proper process in this repo?",
+      "expected_output": "Explains the six stages and the committed artifact chain, and offers to scaffold docs/sdlc/ plus .claude/sdlc.json",
+      "expectations": [
+        "Names all six stages in order",
+        "Explains that each stage commits one artifact the next stage reads",
+        "Distinguishes advisory skills from deterministic hooks"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The spec is approved. What happens next and who has to sign off?",
+      "expected_output": "Routes to the build stage, names plan.md as the next artifact and the acceptance gate before implementation",
+      "expectations": [
+        "Identifies build as the next stage",
+        "Names plan.md",
+        "States that implementation waits on an accepted plan"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor this CMake target to use ninja generators and fix the include paths.",
+      "expected_output": "Answers directly without consulting sdlc; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "What's the difference between std::move and std::forward?",
+      "expected_output": "Answers directly without consulting sdlc; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    }
+  ]
+}

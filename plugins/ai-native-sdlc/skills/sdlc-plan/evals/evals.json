@@ -1,0 +1,44 @@
+{
+  "skill_name": "sdlc-plan",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Support keeps complaining that customers phone in because they can't see their claim status online. Someone should look at this.",
+      "expected_output": "Interviews for the five sections and writes docs/sdlc/<slug>/intent.md in the originator's words, without proposing a design",
+      "expectations": [
+        "Creates an intent.md with all five sections",
+        "Keeps the originator's phrasing rather than upgrading it",
+        "Proposes no architecture or endpoint design",
+        "States that the product owner must approve before design starts"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Turn this Slack thread into something the product team can actually review.",
+      "expected_output": "Produces an intent.md, with unresolved points listed under Open questions rather than guessed",
+      "expectations": [
+        "Writes an intent.md",
+        "Puts genuinely unresolved points in Open questions",
+        "Names who is affected specifically rather than 'all users'"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor this CMake target to use ninja generators and fix the include paths.",
+      "expected_output": "Answers directly without consulting sdlc-plan; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-plan skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "What's the difference between std::move and std::forward?",
+      "expected_output": "Answers directly without consulting sdlc-plan; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-plan skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    }
+  ]
+}

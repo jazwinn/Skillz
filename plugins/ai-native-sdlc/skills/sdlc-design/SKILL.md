@@ -1,6 +1,6 @@
 ---
 name: sdlc-design
-description: Stage 2 of the AI-native SDLC — read an approved intent.md and produce spec.md, collapsing requirements and design into one session while applying organizational policy skills (security, compliance, brand, UX) live. Use when an intent is approved and needs turning into requirements and a design, when the user asks to "write the spec" or "design this", or when a spec needs reviewing against policy.
+description: "Stage 2 of the AI-native SDLC: read an approved intent.md and produce spec.md from the bundled assets/spec.md template, collapsing requirements and design into one session while applying organizational policy skills (security, compliance, brand, UX) live rather than discovering them in a later review. Make sure to use this skill whenever an intent needs turning into requirements and a design, whenever the user says 'write the spec', 'design this' or 'how should we build this', and whenever a spec needs checking against policy - including when they frame it as just sketching, since requirements and design belong in one pass."
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
 ---
 
@@ -14,6 +14,8 @@ Read `intent.md`. Write `spec.md` beside it. Do not start without an approved in
 if it is missing or still `draft`, say so and stop.
 
 ## What spec.md contains
+
+Start from `assets/spec.md` in this skill directory. It contains:
 
 ```markdown
 # <Title>

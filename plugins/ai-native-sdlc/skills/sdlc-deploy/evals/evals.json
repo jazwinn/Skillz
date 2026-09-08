@@ -1,0 +1,43 @@
+{
+  "skill_name": "sdlc-deploy",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review PR #412 before I merge it.",
+      "expected_output": "Reviews against policy, CLAUDE.md and the branch's plan.md, with findings ranked blocking/should-fix/consider",
+      "expectations": [
+        "Findings are ranked by severity",
+        "Each finding cites a location and the policy or plan item it violates",
+        "Drift from the accepted plan is called out",
+        "Says plainly if the diff is clean rather than inventing findings"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Push this to production.",
+      "expected_output": "Prepares the release and stops at the gate, explaining that a named release manager must authorize",
+      "expectations": [
+        "Does not deploy to production unattended",
+        "Explains the release authorization requirement"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Refactor this CMake target to use ninja generators and fix the include paths.",
+      "expected_output": "Answers directly without consulting sdlc-deploy; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-deploy skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "What's the difference between std::move and std::forward?",
+      "expected_output": "Answers directly without consulting sdlc-deploy; this is a negative case for over-triggering",
+      "expectations": [
+        "The sdlc-deploy skill does not trigger",
+        "The question is answered on its own terms"
+      ]
+    }
+  ]
+}

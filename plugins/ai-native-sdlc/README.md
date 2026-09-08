@@ -92,11 +92,23 @@ echo '{"tool_name":"Edit","tool_input":{"file_path":"src/generated/api.ts"},"cwd
 A blocked action prints a `permissionDecision: deny` payload. Silence means allowed —
 usually a missing `.claude/sdlc.json` or a glob that does not match.
 
-## Templates
+## Bundled assets
 
-`templates/` holds the artifact shapes the skills write: `intent.md`, `spec.md`,
-`plan.md`, `CLAUDE.md`, plus `sdlc.json` and a `bands.yaml` for maintain-stage control
-bands.
+Each stage skill ships the template it writes, so the template travels with the skill:
+
+| Skill | Assets |
+| --- | --- |
+| `sdlc-plan` | `assets/intent.md` |
+| `sdlc-design` | `assets/spec.md` |
+| `sdlc-build` | `assets/plan.md`, `assets/CLAUDE.md` |
+| `sdlc-maintain` | `assets/bands.yaml` |
+
+`templates/sdlc.json` stays at plugin level because it configures the hook, not a
+skill's output.
+
+Every skill also carries `evals/evals.json` — two positive cases plus two negatives
+that must *not* trigger it. Run them with `claude plugin eval`, or with skill-creator's
+`run_eval.py` for a graded with-skill vs baseline comparison.
 
 The maintain-stage **detector is deliberately not shipped** — it has to read your
 metrics from your system, so a generic one would be a stub pretending to be machinery.

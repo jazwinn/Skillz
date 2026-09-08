@@ -1,6 +1,6 @@
 ---
 name: sdlc-deploy
-description: Stage 5 of the AI-native SDLC — review PRs against policy with findings ranked by severity, and ship through explicit gates with per-environment autonomy tiers so the agent can act freely in dev but never past the production gate. Use when reviewing a pull request, responding to review comments, setting up branch protection or CODEOWNERS, configuring a release approval gate, running Claude non-interactively in CI, or sandboxing what an agent may reach.
+description: "Stage 5 of the AI-native SDLC: review pull requests against policy with findings ranked by severity, and ship through explicit gates with per-environment autonomy tiers so an agent acts freely in dev but can never pass the production gate. Make sure to use this skill whenever the user is reviewing a pull request or responding to review comments, setting up branch protection, CODEOWNERS or a release approval gate, running Claude non-interactively in CI, or sandboxing what an agent may reach - and whenever they mention shipping, releasing, merging or deploying, even if they never ask for a review."
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
