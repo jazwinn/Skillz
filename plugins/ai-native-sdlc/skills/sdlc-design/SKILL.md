@@ -1,7 +1,7 @@
 ---
 name: sdlc-design
 description: Stage 2 of the AI-native SDLC — read an approved intent.md and produce spec.md, collapsing requirements and design into one session while applying organizational policy skills (security, compliance, brand, UX) live. Use when an intent is approved and needs turning into requirements and a design, when the user asks to "write the spec" or "design this", or when a spec needs reviewing against policy.
-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
 ---
 
 # Stage 2 — Design: intent into spec

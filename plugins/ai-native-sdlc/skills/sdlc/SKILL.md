@@ -1,7 +1,7 @@
 ---
 name: sdlc
 description: Router and reference for the AI-native SDLC — the six stages (plan, design, build, test, deploy, maintain), the committed artifact chain that links them, and the skills-vs-hooks control model. Use when the user asks about the AI-native SDLC or the playbook, wants to set the workflow up in a repo, asks which stage comes next or where a piece of work stands, or says something like "run the SDLC", "start a new feature properly", or "wire up the SDLC gates".
-tools: Read, Glob, Grep, Bash, Write, Edit
+allowed-tools: Read, Glob, Grep, Bash, Write, Edit
 ---
 
 # The AI-native SDLC

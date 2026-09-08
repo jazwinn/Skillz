@@ -1,7 +1,7 @@
 ---
 name: sdlc-maintain
 description: Stage 6 of the AI-native SDLC — close the loop with deterministic detection that invokes Claude only when a metric leaves its control band, tiered 1/2/3-sigma responses from log to read-only diagnosis to proposing a PR, scheduled security scans whose findings are validated before reporting, and on-call response in chat. Use when setting up monitoring that triggers an agent, defining control bands or runbooks, responding to a production incident or alert, or scheduling recurring security scans.
-tools: Read, Glob, Grep, Write, Edit, Bash
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
 # Stage 6 — Maintain: close the loop

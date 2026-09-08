@@ -1,7 +1,7 @@
 ---
 name: sdlc-build
 description: Stage 3 of the AI-native SDLC — turn an approved spec.md into an accepted plan.md before any code is written, and keep institutional knowledge in CLAUDE.md so sessions start informed. Use when implementation is about to start, when the user asks to "plan the work", "implement the spec" or "write CLAUDE.md", when setting up parallel worktree sessions, or when a repo needs its protected paths and build conventions written down.
-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
 ---
 
 # Stage 3 — Build: plan, then implement

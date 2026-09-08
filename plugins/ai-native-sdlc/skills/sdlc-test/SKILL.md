@@ -1,7 +1,7 @@
 ---
 name: sdlc-test
 description: Stage 4 of the AI-native SDLC — give the session a feedback loop so it verifies its own work before a human sees it, drive bug fixes from a failing test that cannot be edited during the fix, and keep evals running in CI whenever agent configuration changes. Use when a change needs verifying, when the user reports a bug to fix, when tests or builds need running before reporting done, or when setting up evals for skills, hooks or CLAUDE.md.
-tools: Read, Glob, Grep, Write, Edit, Bash
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
 # Stage 4 — Test: the session checks its own work

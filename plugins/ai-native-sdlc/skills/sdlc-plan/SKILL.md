@@ -1,7 +1,7 @@
 ---
 name: sdlc-plan
 description: Stage 1 of the AI-native SDLC — capture a raw idea, request or bug report as a version-controlled intent.md proto-spec in the originator's own words. Use when someone brings an unformed idea, feature request, complaint or problem and it needs writing down before anyone designs it; when the user says "capture this", "write it up", "file an intent"; or when a diagnosis from the maintain stage needs to re-enter the pipeline as new work.
-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion
 ---
 
 # Stage 1 — Plan: capture intent
