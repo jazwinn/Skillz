@@ -1,0 +1,12 @@
+{
+  "_comment": "Third-party marketplaces and plugins to reinstall on every machine. Code is NOT vendored here - only the reference is pinned.",
+  "marketplaces": [
+    {
+      "name": "claude-plugins-official",
+      "source": "anthropics/claude-plugins-official"
+    }
+  ],
+  "plugins": [
+    "clangd-lsp@claude-plugins-official"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "skillz",
+  "description": "Personal marketplace of Claude Code skills, plugins, agents and slash commands, synced across machines",
+  "owner": {
+    "name": "jazwinn"
+  },
+  "plugins": [
+    {
+      "name": "personal-toolkit",
+      "description": "Personal collection of standalone agents, slash commands and skills that follow me across machines",
+      "author": {
+        "name": "jazwinn"
+      },
+      "category": "productivity",
+      "source": "./plugins/personal-toolkit",
+      "homepage": "https://github.com/jazwinn/Skillz/tree/main/plugins/personal-toolkit"
+    },
+    {
+      "name": "pretty-mermaid",
+      "description": "Render beautiful Mermaid diagrams as SVG or ASCII art using the beautiful-mermaid library. Supports 15+ themes and 5 diagram types (flowchart, sequence, state, class, ER).",
+      "author": {
+        "name": "jazwinn"
+      },
+      "category": "productivity",
+      "source": "./plugins/pretty-mermaid",
+      "homepage": "https://github.com/jazwinn/Skillz/tree/main/plugins/pretty-mermaid"
+    }
+  ]
+}

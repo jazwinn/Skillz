@@ -1,0 +1,11 @@
+# Skill dependencies are installed by scripts/sync - never committed
+node_modules/
+
+# Local, machine-specific overrides
+settings.local.json
+*.bak-*
+
+# Noise
+*.log
+.DS_Store
+Thumbs.db

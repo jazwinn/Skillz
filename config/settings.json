@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -d out/build/*)",
+      "Bash(ls CMakePresets.json CMakeUserPresets.json)",
+      "Bash(ninja -t targets all)",
+      "Bash(conda run *)"
+    ]
+  },
+  "enabledPlugins": {
+    "clangd-lsp@claude-plugins-official": true,
+    "personal-toolkit@skillz": true,
+    "pretty-mermaid@skillz": true
+  },
+  "effortLevel": "high",
+  "autoUpdatesChannel": "latest",
+  "theme": "dark",
+  "verbose": false,
+  "autoCompactEnabled": true,
+  "agentPushNotifEnabled": true
+}
