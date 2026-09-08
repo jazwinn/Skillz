@@ -42,6 +42,7 @@ Both sync scripts accept `--no-pull` (skip `git pull`) and `--dry-run-settings`
 | --- | --- |
 | `personal-toolkit` | Catch-all for standalone agents, slash commands and small skills |
 | `pretty-mermaid` | Renders Mermaid diagrams as themed SVG or terminal ASCII |
+| `ai-native-sdlc` | Six-stage SDLC skills plus hooks that enforce the gates |
 
 Third-party plugins aren't vendored — they're pinned by reference in
 `config/upstream.json` and reinstalled from their own marketplaces:
@@ -49,6 +50,7 @@ Third-party plugins aren't vendored — they're pinned by reference in
 | Plugin | From |
 | --- | --- |
 | `clangd-lsp` | `anthropics/claude-plugins-official` |
+| `skill-creator` | `anthropics/claude-plugins-official` |
 
 ## Adding things
 
