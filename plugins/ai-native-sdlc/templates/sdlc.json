@@ -1,0 +1,27 @@
+{
+  "_comment": "Copy to <repo>/.claude/sdlc.json and edit. Without this file the ai-native-sdlc hooks allow everything.",
+
+  "protectedPaths": [
+    "src/generated/**",
+    "**/*.pb.go",
+    "v1/**"
+  ],
+
+  "testPaths": [
+    "tests/**",
+    "**/*_test.py",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
+
+  "fixLockFile": ".claude/sdlc-fix.lock",
+
+  "deployGate": {
+    "match": [
+      "*deploy*production*",
+      "*helm upgrade*prod*",
+      "kubectl*--context*prod*"
+    ],
+    "approvalEnv": "RELEASE_APPROVAL"
+  }
+}

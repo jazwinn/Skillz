@@ -7,6 +7,16 @@
   },
   "plugins": [
     {
+      "name": "ai-native-sdlc",
+      "description": "Runs the six-stage AI-native SDLC from Anthropic's playbook: intent, spec, plan, verified build, gated deploy and closed-loop maintenance, with PreToolUse hooks that enforce protected paths, frozen tests during a fix, and the production release gate.",
+      "author": {
+        "name": "jazwinn"
+      },
+      "category": "workflow",
+      "source": "./plugins/ai-native-sdlc",
+      "homepage": "https://github.com/jazwinn/Skillz/tree/main/plugins/ai-native-sdlc"
+    },
+    {
       "name": "personal-toolkit",
       "description": "Personal collection of standalone agents, slash commands and skills that follow me across machines",
       "author": {

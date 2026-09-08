@@ -8,6 +8,7 @@
     ]
   },
   "enabledPlugins": {
+    "ai-native-sdlc@skillz": true,
     "clangd-lsp@claude-plugins-official": true,
     "personal-toolkit@skillz": true,
     "pretty-mermaid@skillz": true

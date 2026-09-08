@@ -1,0 +1,6 @@
+{
+  "name": "ai-native-sdlc",
+  "description": "Runs the six-stage AI-native SDLC: intent, spec, plan, verified build, gated deploy and closed-loop maintenance, with hooks that enforce the gates",
+  "version": "1.0.0",
+  "author": { "name": "jazwinn" }
+}

@@ -1,0 +1,19 @@
+# Control bands for a maintain-stage detector. The detector is ordinary scheduled
+# code: it computes the metric over the window, compares against the baseline with
+# Western Electric (or similar) rules, and invokes Claude only on a breach.
+#
+# The escalation is in authority, not urgency.
+
+metric: ci_test_failure_rate
+window: 7d
+baseline: rolling
+
+bands:
+  1sigma: { action: log }
+  2sigma: { action: diagnose, tools: "Read,Grep,Bash(gh run view *)" }
+  3sigma: { action: propose, routes: [pull_request, runbook:rollback-deploy] }
+
+# 1sigma  log       records the excursion; no model runs
+# 2sigma  diagnose  read-only; explains what moved and what changed
+# 3sigma  propose   may act, but only via a PR into the review gate or a
+#                   pre-approved runbook - never a direct production change
