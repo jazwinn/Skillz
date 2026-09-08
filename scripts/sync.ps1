@@ -87,7 +87,7 @@ foreach ($p in $upstream.plugins) { $pluginIds += $p }
 foreach ($p in $marketplace.plugins) { $pluginIds += "$($p.name)@$($marketplace.name)" }
 
 foreach ($id in $pluginIds) {
-  if (Invoke-Claude @('plugin', 'install', $id, '--scope', 'user', '-y')) {
+  if (Invoke-Claude @('plugin', 'install', $id, '--scope', 'user')) {
     Write-Ok "installed $id"
   } else {
     $failures += "install $id"

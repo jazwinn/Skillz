@@ -93,7 +93,7 @@ plugin_ids="$(node -e '
 step "Installing plugins"
 while read -r id; do
   [[ -z "$id" ]] && continue
-  if invoke_claude plugin install "$id" --scope user -y; then
+  if invoke_claude plugin install "$id" --scope user; then
     ok "installed $id"
   else
     failures+=("install $id")

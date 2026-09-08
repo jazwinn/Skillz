@@ -33,8 +33,10 @@ npm dependencies the skills need. It's idempotent, so re-run it any time.
 | Add a skill sitting in `~/.claude/skills` | `node scripts/add-skill.mjs ~/.claude/skills/<name>` |
 | Check the manifests are valid | `claude plugin validate .` |
 
-Both sync scripts accept `--no-pull` (skip `git pull`) and `--dry-run-settings`
-(show the settings merge without writing). `capture.mjs` accepts `--dry-run`.
+Both sync scripts take a flag to skip `git pull` and one to show the settings
+merge without writing — `sync.sh` uses `--no-pull` / `--dry-run-settings`, and
+`sync.ps1` uses the PowerShell forms `-NoPull` / `-DryRunSettings`.
+`capture.mjs` accepts `--dry-run`.
 
 ## What's in here
 
