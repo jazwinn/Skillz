@@ -86,9 +86,17 @@ $pluginIds = @()
 foreach ($p in $upstream.plugins) { $pluginIds += $p }
 foreach ($p in $marketplace.plugins) { $pluginIds += "$($p.name)@$($marketplace.name)" }
 
+# 'plugin install' is a no-op once a plugin is installed, so an edited plugin
+# never reaches ~/.claude/plugins/cache. Always follow it with 'plugin update',
+# which re-copies when plugin.json carries a new version.
 foreach ($id in $pluginIds) {
   if (Invoke-Claude @('plugin', 'install', $id, '--scope', 'user')) {
-    Write-Ok "installed $id"
+    if (Invoke-Claude @('plugin', 'update', $id, '--scope', 'user')) {
+      Write-Ok "installed $id"
+    } else {
+      Write-Warn "installed $id, but the update check failed"
+      $failures += "update $id"
+    }
   } else {
     $failures += "install $id"
   }

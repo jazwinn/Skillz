@@ -91,10 +91,18 @@ plugin_ids="$(node -e '
 ' "$repo_root")"
 
 step "Installing plugins"
+# 'plugin install' is a no-op once a plugin is installed, so an edited plugin
+# never reaches ~/.claude/plugins/cache. Always follow it with 'plugin update',
+# which re-copies when plugin.json carries a new version.
 while read -r id; do
   [[ -z "$id" ]] && continue
   if invoke_claude plugin install "$id" --scope user; then
-    ok "installed $id"
+    if invoke_claude plugin update "$id" --scope user; then
+      ok "installed $id"
+    else
+      warn "installed $id, but the update check failed"
+      failures+=("update $id")
+    fi
   else
     failures+=("install $id")
   fi
