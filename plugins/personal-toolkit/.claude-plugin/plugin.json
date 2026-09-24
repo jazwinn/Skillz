@@ -1,6 +1,8 @@
 {
   "name": "personal-toolkit",
   "description": "Personal collection of standalone agents, slash commands and skills",
-  "version": "1.0.0",
-  "author": { "name": "jazwinn" }
+  "version": "1.1.0",
+  "author": {
+    "name": "jazwinn"
+  }
 }
