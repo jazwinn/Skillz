@@ -19,5 +19,6 @@
   "theme": "dark",
   "verbose": false,
   "autoCompactEnabled": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "includeCoAuthoredBy": false
 }
