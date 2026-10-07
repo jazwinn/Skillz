@@ -31,6 +31,7 @@ npm dependencies the skills need. It's idempotent, so re-run it any time.
 | Pull down changes made on another PC | `./scripts/sync.sh` (or `sync.ps1`) |
 | Push local tweaks up to the repo | `node scripts/capture.mjs` then commit & push |
 | Add a skill sitting in `~/.claude/skills` | `node scripts/add-skill.mjs ~/.claude/skills/<name>` |
+| Add a mod sitting in `~/.claude/dev-mods` | `node scripts/add-mod.mjs ~/.claude/dev-mods/<session>/<name>` |
 | Check the manifests are valid | `claude plugin validate .` |
 
 Both sync scripts take a flag to skip `git pull` and one to show the settings
@@ -100,6 +101,25 @@ node scripts/add-skill.mjs ~/.claude/skills/<name>
 That copies it in (minus `node_modules`), writes a `plugin.json`, and registers it
 in `marketplace.json`. Add it to an existing plugin instead with
 `--into personal-toolkit`.
+
+**A new mod** — mods are plugins whose components are hooks modules, so they
+sync like anything else once they are in here. You author one under
+`~/.claude/dev-mods/<session-id>/<name>/`, which is session-scoped and never
+synced, so promote it when it works:
+
+```bash
+node scripts/add-mod.mjs ~/.claude/dev-mods/<session-id>/<name>
+```
+
+That copies `hooks/` (and `types/`, if the mod declares a `$.state` contract),
+carries the mod's own `plugin.json` across, and registers it in
+`marketplace.json`. Re-running it bumps the patch version so the plugin cache
+actually refreshes. `.claude-plugin/types/` is written by the engine after a mod
+loads and is gitignored, like `node_modules`.
+
+A mod always becomes its own plugin — there is no `--into`. A plugin has exactly
+one `hooks/hooks.json`, so two mods cannot share one without merging their
+module lists by hand.
 
 **A new agent or slash command** — write it at `~/.claude/agents/<name>.md` or
 `~/.claude/commands/<name>.md`, then `node scripts/capture.mjs` pulls it into

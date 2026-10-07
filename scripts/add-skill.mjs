@@ -9,9 +9,10 @@
 //
 // The source directory is copied, never moved, and node_modules is excluded.
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync, cpSync } from 'node:fs'
+import { readFileSync, existsSync, mkdirSync, cpSync } from 'node:fs'
 import { basename, join, dirname, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { ensurePluginManifest, registerInMarketplace } from './lib/marketplace.mjs'
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const args = process.argv.slice(2)
@@ -70,33 +71,12 @@ console.log(`copied ${src}`)
 console.log(`    -> plugins/${pluginName}/skills/${skillName}`)
 
 // A brand-new plugin needs a manifest and a marketplace entry.
-const manifestPath = join(pluginDir, '.claude-plugin', 'plugin.json')
-if (!existsSync(manifestPath)) {
-  mkdirSync(dirname(manifestPath), { recursive: true })
-  writeFileSync(manifestPath, JSON.stringify({
-    name: pluginName,
-    description,
-    version: '1.0.0',
-    author: { name: 'jazwinn' },
-  }, null, 2) + '\n', 'utf8')
-  console.log(`created plugins/${pluginName}/.claude-plugin/plugin.json`)
-}
+ensurePluginManifest({ pluginDir, pluginName, description })
+registerInMarketplace({ repoRoot, pluginName, description })
 
-const marketplacePath = join(repoRoot, '.claude-plugin', 'marketplace.json')
-const marketplace = JSON.parse(readFileSync(marketplacePath, 'utf8'))
-marketplace.plugins ??= []
-if (!marketplace.plugins.some((p) => p.name === pluginName)) {
-  marketplace.plugins.push({
-    name: pluginName,
-    description,
-    author: { name: marketplace.owner?.name ?? 'jazwinn' },
-    category: 'productivity',
-    source: `./plugins/${pluginName}`,
-    homepage: `https://github.com/jazwinn/Skillz/tree/main/plugins/${pluginName}`,
-  })
-  marketplace.plugins.sort((a, b) => a.name.localeCompare(b.name))
-  writeFileSync(marketplacePath, JSON.stringify(marketplace, null, 2) + '\n', 'utf8')
-  console.log(`registered ${pluginName} in .claude-plugin/marketplace.json`)
-}
+// Plugins are cached by version, so an unchanged version is a silent no-op.
+console.log(`
+Bump the version in plugins/${pluginName}/.claude-plugin/plugin.json whenever
+you change its contents, or the edit never reaches the plugin cache.`)
 
 console.log(`\nNext: claude plugin validate . && git add -A && git commit -m "Add ${skillName}"`)

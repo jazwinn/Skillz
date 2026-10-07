@@ -9,3 +9,6 @@ settings.local.json
 *.log
 .DS_Store
 Thumbs.db
+
+# Written by the engine into a mod's folder once it loads - like node_modules
+.claude-plugin/types/

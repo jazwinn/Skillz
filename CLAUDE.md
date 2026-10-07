@@ -14,7 +14,12 @@ any machine by running `scripts/sync.ps1` (Windows) or `scripts/sync.sh` (macOS/
 ## Rules when editing
 
 - Adding a plugin means editing **two** files: its `plugin.json` and the `plugins` array in
-  `marketplace.json`. `scripts/add-skill.mjs` does both — prefer it over hand-editing.
+  `marketplace.json`. `scripts/add-skill.mjs` (skills) and `scripts/add-mod.mjs` (mods —
+  plugins whose components are hooks modules) do both — prefer them over hand-editing.
+  Both share `scripts/lib/marketplace.mjs`.
+- Bump a plugin's `version` whenever its contents change. Sync runs `claude plugin update`,
+  which only re-copies into `~/.claude/plugins/cache` when the version is new; without a bump
+  the edit silently never loads.
 - `plugins/personal-toolkit/` is the catch-all for loose agents, slash commands and small skills.
   A skill big enough to have its own dependencies should be its own plugin.
 - Never commit `node_modules/`. `scripts/sync` runs `npm install` where a `package.json` exists.
