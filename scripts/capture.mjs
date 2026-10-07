@@ -6,10 +6,12 @@
 //   ~/.claude/commands/**    -> plugins/personal-toolkit/commands/
 //   ~/.claude/settings.json  -> config/settings.json  (tracked keys only)
 //   ~/.claude/skills/*       -> reported, promote with scripts/add-skill.mjs
+//   installed plugins        -> config/upstream.json  (third-party, by reference)
 //
 // Nothing is deleted. Usage: node scripts/capture.mjs [--dry-run]
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync, cpSync, readdirSync, statSync } from 'node:fs'
+import { execSync } from 'node:child_process'
 import { homedir } from 'node:os'
 import { join, dirname, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -89,6 +91,78 @@ if (!existsSync(localPath)) {
     note('updated config/settings.json')
     note('(new keys are never added automatically - edit config/settings.json to track more)')
   }
+}
+
+// Third-party plugins installed on this machine, pinned by reference so the
+// other machines reinstall them. Plugins from this repo's own marketplace are
+// already covered by .claude-plugin/marketplace.json. Nothing is unpinned here:
+// removing a plugin everywhere stays a deliberate edit to upstream.json.
+console.log('\n==> Capturing third-party plugins')
+const upstreamPath = join(repoRoot, 'config', 'upstream.json')
+try {
+  // claude is a .cmd shim on Windows, which node cannot spawn without a shell.
+  // These commands are fixed literals - nothing is interpolated into them.
+  const claudeJson = (cmd) => JSON.parse(
+    execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
+  )
+  const installed = claudeJson('claude plugin list --json')
+  const configured = new Map(claudeJson('claude plugin marketplace list --json').map((m) => [m.name, m]))
+  const upstream = JSON.parse(readFileSync(upstreamPath, 'utf8'))
+  const ownName = JSON.parse(readFileSync(join(repoRoot, '.claude-plugin', 'marketplace.json'), 'utf8')).name
+
+  upstream.marketplaces ??= []
+  upstream.plugins ??= []
+  const pinnedMarkets = new Set(upstream.marketplaces.map((m) => m.name))
+  const pinnedPlugins = new Set(upstream.plugins)
+  let pinned = 0
+
+  for (const plugin of installed) {
+    // Only user-scope installs are reproducible from a marketplace reference;
+    // synced, project and inline plugins come from somewhere else entirely.
+    if (plugin.scope !== 'user') continue
+    const at = plugin.id.lastIndexOf('@')
+    const marketName = at === -1 ? null : plugin.id.slice(at + 1)
+    if (!marketName || marketName === ownName) continue
+
+    const market = configured.get(marketName)
+    if (!market) {
+      note(`skipped ${plugin.id} - marketplace '${marketName}' is not configured`)
+      continue
+    }
+    if (market.source === 'directory') {
+      note(`skipped ${plugin.id} - '${marketName}' is a local directory, not portable`)
+      continue
+    }
+    const source = market.repo ?? market.url
+    if (!source) {
+      note(`skipped ${plugin.id} - no portable source for '${marketName}'`)
+      continue
+    }
+
+    if (!pinnedMarkets.has(marketName)) {
+      upstream.marketplaces.push({ name: marketName, source })
+      pinnedMarkets.add(marketName)
+      note(`pinned marketplace ${marketName} (${source})`)
+      pinned++
+    }
+    if (!pinnedPlugins.has(plugin.id)) {
+      upstream.plugins.push(plugin.id)
+      pinnedPlugins.add(plugin.id)
+      note(`pinned ${plugin.id}`)
+      pinned++
+    }
+  }
+
+  if (pinned === 0) {
+    note('all third-party plugins are already pinned')
+  } else {
+    upstream.marketplaces.sort((a, b) => a.name.localeCompare(b.name))
+    upstream.plugins.sort()
+    if (!dryRun) writeFileSync(upstreamPath, JSON.stringify(upstream, null, 2) + '\n', 'utf8')
+    changes.push('config/upstream.json')
+  }
+} catch (err) {
+  note(`could not read installed plugins (${err.message.split('\n')[0]}) - skipping`)
 }
 
 // Skills living loose in ~/.claude/skills are not synced until promoted.
