@@ -38,6 +38,39 @@ merge without writing — `sync.sh` uses `--no-pull` / `--dry-run-settings`, and
 `sync.ps1` uses the PowerShell forms `-NoPull` / `-DryRunSettings`.
 `capture.mjs` accepts `--dry-run`.
 
+## Automated sync
+
+A scheduled agent runs this every morning. The procedure below is the whole
+contract — it needs nothing beyond this file.
+
+1. Fetch and compare against upstream:
+
+   ```bash
+   git fetch origin && git rev-list --left-right --count HEAD...@{u}
+   ```
+
+   The first number is commits ahead, the second is commits behind.
+
+2. **Behind 0** — already current. Stop, and don't run the sync script.
+3. **Behind > 0 and ahead > 0** — the branch has diverged. Stop and report both
+   sides (`git log --oneline @{u}..HEAD` and `git log --oneline HEAD..@{u}`).
+   Don't pull, merge, rebase or reset.
+4. **Working tree dirty** (`git status --porcelain` prints anything) — stop and
+   report the files. The sync script skips its pull in this state anyway.
+5. Otherwise run the sync script for the platform, as in *Set up a new machine*
+   above. It fast-forwards, registers marketplaces, installs **and updates**
+   every plugin, merges settings, and installs npm dependencies. Allow it ten
+   minutes; plugin installs are slow.
+6. Report what arrived — `git log --oneline <sha before the pull>..HEAD` — plus
+   any `!` warnings the script printed. One line is enough when nothing changed.
+
+This is a read-and-fast-forward job. Never force-push, `reset --hard`, rebase,
+stash, commit or push.
+
+To go the other way — pull this machine's local changes back into the repo —
+run `node scripts/capture.mjs`, review `git diff`, then commit and push. That is
+a deliberate manual step, not part of the scheduled run.
+
 ## What's in here
 
 | Plugin | What it gives you |
@@ -72,8 +105,13 @@ in `marketplace.json`. Add it to an existing plugin instead with
 `~/.claude/commands/<name>.md`, then `node scripts/capture.mjs` pulls it into
 `personal-toolkit`.
 
-**A third-party plugin** — install it normally, then add its id and marketplace to
-`config/upstream.json` so other machines pick it up.
+**A third-party plugin** — install it normally, then run
+`node scripts/capture.mjs`. It reads the installed plugin list and pins anything
+user-scope from an outside marketplace into `config/upstream.json`, adding the
+marketplace reference alongside it. Synced, project and inline plugins and local
+directory marketplaces are skipped — none of them are reproducible from a pinned
+reference. Nothing is ever unpinned, so removing a plugin everywhere stays a
+deliberate edit to that file.
 
 **A setting worth sharing** — add the key to `config/settings.json`. From then on
 `capture.mjs` keeps it in step with your local value, and `sync` pushes it to your
@@ -97,6 +135,12 @@ anything is written.
 **not** change what Claude loads until you re-run sync. That also means a plugin
 update wipes the cached copy's `node_modules`, which is why sync runs
 `scripts/install-deps.mjs` against the *installed* paths rather than the repo.
+
+**Bump the version when you change a plugin.** `claude plugin install` is a
+no-op once a plugin is installed, so sync follows it with `claude plugin update`
+— and that only re-copies when `plugin.json` carries a version the cache hasn't
+seen. Edit a plugin's contents without bumping its `version` and the change
+silently never reaches `~/.claude/plugins/cache`, however many times you sync.
 
 **The clone can live anywhere.** Sync registers the marketplace by the local path it
 finds itself at, so each machine can put the repo wherever it likes. That path is
