@@ -17,6 +17,16 @@
       "homepage": "https://github.com/jazwinn/Skillz/tree/main/plugins/ai-native-sdlc"
     },
     {
+      "name": "linkedin-post-writer",
+      "description": "Draft a new LinkedIn post from scratch using one of 20 2026 hook formulas (anaphora, R.I.P., time-anchor, curiosity-gap, contrarian, controlled A/B, false-binary, and more) plus a founders-edition angle library, picked by engagement goal (comments, reposts, likes, saves). Runs the humanizer pass and schedules via Publora on approval. Use to write a post, find a hook or proven format, or get founder-specific angles. Not for reviewing existing drafts (use linkedin-humanizer --mode audit).",
+      "author": {
+        "name": "jazwinn"
+      },
+      "category": "productivity",
+      "source": "./plugins/linkedin-post-writer",
+      "homepage": "https://github.com/jazwinn/Skillz/tree/main/plugins/linkedin-post-writer"
+    },
+    {
       "name": "personal-toolkit",
       "description": "Personal collection of standalone agents, slash commands and skills that follow me across machines",
       "author": {
