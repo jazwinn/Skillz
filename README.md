@@ -22,7 +22,7 @@ powershell -ExecutionPolicy Bypass -File scripts/sync.ps1
 
 Then restart Claude Code. That's it — the script registers the marketplaces,
 installs and enables every plugin, merges the shared settings, and installs any
-npm dependencies the skills need. It's idempotent, so re-run it any time.
+dependencies the skills need. It's idempotent, so re-run it any time.
 
 ## Day-to-day
 
@@ -60,7 +60,7 @@ contract — it needs nothing beyond this file.
    report the files. The sync script skips its pull in this state anyway.
 5. Otherwise run the sync script for the platform, as in *Set up a new machine*
    above. It fast-forwards, registers marketplaces, installs **and updates**
-   every plugin, merges settings, and installs npm dependencies. Allow it ten
+   every plugin, merges settings, and installs dependencies. Allow it ten
    minutes; plugin installs are slow.
 6. Report what arrived — `git log --oneline <sha before the pull>..HEAD` — plus
    any `!` warnings the script printed. One line is enough when nothing changed.
@@ -157,6 +157,16 @@ anything is written.
 **not** change what Claude loads until you re-run sync. That also means a plugin
 update wipes the cached copy's `node_modules`, which is why sync runs
 `scripts/install-deps.mjs` against the *installed* paths rather than the repo.
+
+**Skill dependencies come in two flavours.** `install-deps.mjs` walks each
+installed plugin and runs `npm install` beside every `package.json` and
+`pip install -r` beside every `requirements.txt`. npm installs into a local
+`node_modules`, so its presence is the "already done" marker; pip installs into
+the interpreter, so a `.requirements-installed` stamp holding the file's hash
+stands in. A plugin update replaces the cached folder and takes both with it,
+which is what makes a re-sync reinstall them. pip goes to `--user` unless a
+virtualenv is active, falling back to a plain install where `--user` is
+refused.
 
 **Bump the version when you change a plugin.** `claude plugin install` is a
 no-op once a plugin is installed, so sync follows it with `claude plugin update`

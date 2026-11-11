@@ -22,7 +22,9 @@ any machine by running `scripts/sync.ps1` (Windows) or `scripts/sync.sh` (macOS/
   the edit silently never loads.
 - `plugins/personal-toolkit/` is the catch-all for loose agents, slash commands and small skills.
   A skill big enough to have its own dependencies should be its own plugin.
-- Never commit `node_modules/`. `scripts/sync` runs `npm install` where a `package.json` exists.
+- Never commit `node_modules/`. `scripts/sync` runs `npm install` where a `package.json`
+  exists and `pip install -r` where a `requirements.txt` does — declare a skill's Python
+  dependencies in a `requirements.txt` beside its scripts rather than documenting them in prose.
 - `config/settings.json` holds only portable settings. Machine-specific values belong in
   `~/.claude/settings.json` directly — the merge preserves any key not tracked here.
 - After changing any manifest, run `claude plugin validate .` before committing.
