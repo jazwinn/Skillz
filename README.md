@@ -79,6 +79,8 @@ a deliberate manual step, not part of the scheduled run.
 | `personal-toolkit` | Catch-all for standalone agents, slash commands and small skills |
 | `pretty-mermaid` | Renders Mermaid diagrams as themed SVG or terminal ASCII |
 | `ai-native-sdlc` | Six-stage SDLC skills plus hooks that enforce the gates |
+| `linkedin-post-writer` | Drafts LinkedIn posts that read as written, not generated |
+| `showcase-readme` | Portfolio-grade READMEs - recorded GIF demo, diagrams, badges |
 
 Third-party plugins aren't vendored — they're pinned by reference in
 `config/upstream.json` and reinstalled from their own marketplaces:

@@ -45,6 +45,16 @@
       "category": "productivity",
       "source": "./plugins/pretty-mermaid",
       "homepage": "https://github.com/jazwinn/Skillz/tree/main/plugins/pretty-mermaid"
+    },
+    {
+      "name": "showcase-readme",
+      "description": "Generate a portfolio-grade README that makes hiring managers and recruiters stop scrolling - hero with badges, a real recorded GIF demo of the program running, Mermaid architecture diagrams, measured performance numbers, engineering highlights and a roadmap. Use when the user asks to make, redesign or polish a README for a project they want to show employers, recruiters or a portfolio, or asks for a demo GIF or architecture diagram for their repo.",
+      "author": {
+        "name": "jazwinn"
+      },
+      "category": "productivity",
+      "source": "./plugins/showcase-readme",
+      "homepage": "https://github.com/jazwinn/Skillz/tree/main/plugins/showcase-readme"
     }
   ]
 }
