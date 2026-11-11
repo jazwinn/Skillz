@@ -2,6 +2,8 @@
 
 Sections in order. `[R]` = recruiter zone (above the fold), `[E]` = engineer zone.
 
+Every section is droppable: include one only when the repo gives you something true to put in it. The Roadmap is stricter still — it goes in only when the user asks for it.
+
 ## [R] Hero
 
 ```markdown
@@ -51,9 +53,11 @@ How correctness is established: test counts per area, reference parity, what the
 
 Requirements, build commands in a code block, how to get any model/data files, how to run. Keep the exact commands from the existing README.
 
-## [E] Roadmap
+## [E] Roadmap — only when the user asks for one
 
-Checkbox list grouped by area. If long, keep the top area open and put the rest in `<details>`.
+**Do not include this section unless the user explicitly asked for a roadmap, a to-do list or "what's next".** Unfinished work belongs in "Known limitations", which reads as judgment; a speculative roadmap reads as a wish list. An existing README's roadmap counts as the user asking — carry it over rather than deleting it.
+
+When asked for: checkbox list grouped by area, each item something the code actually invites. If long, keep the top area open and put the rest in `<details>`.
 
 ## [E] Feature reference (optional)
 

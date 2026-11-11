@@ -20,6 +20,7 @@ Engineering zone
 
 Presentation
 - [ ] No section is padding; empty sections removed
+- [ ] No Roadmap section unless the user asked for one (or the previous README had one)
 - [ ] Long reference material is in `<details>`
 - [ ] Relative links and image paths resolve from the repo root
 - [ ] Reads cleanly in GitHub dark mode

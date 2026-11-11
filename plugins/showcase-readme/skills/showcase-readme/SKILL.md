@@ -1,6 +1,6 @@
 ---
 name: showcase-readme
-description: Generate a portfolio-grade README that makes hiring managers and recruiters stop scrolling - hero with badges, a real recorded GIF demo of the program running, Mermaid architecture diagrams, measured performance numbers, engineering highlights and a roadmap. Use when the user asks to make, redesign or polish a README for a project they want to show employers, recruiters or a portfolio, or asks for a demo GIF or architecture diagram for their repo.
+description: Generate a portfolio-grade README that makes hiring managers and recruiters stop scrolling - hero with badges, a real recorded GIF demo of the program running, Mermaid architecture diagrams, measured performance numbers and engineering highlights. Use when the user asks to make, redesign or polish a README for a project they want to show employers, recruiters or a portfolio, or asks for a demo GIF or architecture diagram for their repo.
 ---
 
 # Showcase README
@@ -17,8 +17,9 @@ Everything above the first `##` heading is for the recruiter. Everything below i
 1. **No invented facts.** Every number, test count, model name, speedup and feature must come from the repo, a command you ran, or the user. If a number would be great but does not exist, measure it or leave it out and tell the user how to get it. Never reuse numbers from abandoned branches or old conversations without re-checking them against the current code.
 2. **The demo is real.** Record the actual program. Never fake typed output. You may shorten dead time (model loading, a long prefill) and must say so in the caption. Streaming itself keeps its real pace; if the real pace is too slow to watch, speed up the whole GIF with `--speed N`, which stamps an "N× speed" badge on every frame. If the user doesn't want the badge, pass `--no-badge`, and the caption must then say "Sped up N×". A sped-up GIF is never published without one of the two.
 3. **Keep the substance the user already wrote.** If a README exists, read all of it first. Its facts, caveats and roadmap carry over; you are restructuring and presenting, not discarding. Long reference material moves into `<details>` blocks, not into the bin.
-4. **Honest about limits.** A short "Known limitations" or current bottleneck line reads as maturity, not weakness.
-5. No emoji walls, no "🚀 Blazingly fast" filler, no badge for things that are not true (no CI badge without CI).
+4. **Honest about limits.** A short "Known limitations" or current bottleneck line reads as maturity, not weakness. That section is where unfinished work goes.
+5. **No roadmap unless the user asks for one.** A list of things that do not exist yet is the one section that costs credibility rather than earning it, and a reader who wanted the plan can read the limitations. Add it only when the user asks for a roadmap, a to-do list or "what's next" — or when the existing README already had one, in which case it carries over under rule 3.
+6. No emoji walls, no "🚀 Blazingly fast" filler, no badge for things that are not true (no CI badge without CI).
 
 ## Workflow
 
@@ -67,7 +68,7 @@ Avoid custom colours that break in one theme; if you style, use `classDef` with 
 
 ### 5. Write the README
 
-Follow `references/template.md` section by section. Drop sections that would be empty rather than padding them.
+Follow `references/template.md` section by section. Drop sections that would be empty rather than padding them, and leave the Roadmap out unless the user asked for one.
 
 ### 6. Review
 
