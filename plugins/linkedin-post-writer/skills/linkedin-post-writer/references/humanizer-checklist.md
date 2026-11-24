@@ -92,6 +92,13 @@ Decaying 2023-24 set (delve, tapestry, realm, journey, paradigm, cultivate): cou
 - [ ] Engage on 10-15 others' posts daily with substantive comments
 - [ ] Write from personal experience (validates expertise over marketing)
 
+## Links
+
+- [ ] The post contains no URL unless the user asked for one. A link the draft added on its own is removed, and the close rewritten to stand without it
+- [ ] A requested link sits in the first comment, not the post body
+- [ ] The body carries at most a plain "link in the comments", never a teaser stacked on top of it
+- [ ] Sources the user did not supply are named in words rather than linked
+
 ## AI disclosure
 
 - [ ] The post ends with `AI disclosure: <text> (Anthropic Claude).` as its last line, after the body, P.S. and hashtags

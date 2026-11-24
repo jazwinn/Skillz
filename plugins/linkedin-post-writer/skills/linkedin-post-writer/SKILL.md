@@ -86,13 +86,29 @@ If the user knows what they want the post to earn, start here, then narrow by to
    - One contrast and one triple per post maximum; no "The result?" / "Plot twist:" reveal bridges (Density rule in `../../references/hook-formulas.md`)
    - Close with a specific question, and add a one-line P.S. when there is a real follow-up (+7.5%)
    - 0-2 hashtags, placed at end
-   - No external links in body (move to first comment)
+   - **No links unless the user asked for one** (see §Links). Links suppress reach, so never add one to round the post off. If the user supplied one, it goes in the first comment, never the body.
    - **AI disclosure, always.** Every post ends with the disclosure line (see "AI disclosure" below). Write the draft so it reads complete without it, then append it.
 4. **Humanizer pass.** Scrub 2026 AI vocab by density, cap em dashes (about one per 100 words), break stacked triads, generic openers and reveal bridges. Add at least 1 specific number, 1 named entity, 1 first-person concrete detail per 100 words.
 5. **Run audit.** Optionally invoke `linkedin-humanizer --mode audit` for algorithm + voice checks before showing to user.
 6. **Optional illustration.** If the post would land better with a visual (or the user asks), offer one: draft an image and generate it with `lib.illustrate(prompt, kind="wide")`, pulling brand handle/color from Voice & Brand Profile §6 for the overlay. Show the returned `url` + `cost` in the approval card and attach it via `media_urls` on publish. For a **multi-image grid** (2-10 images in one post) use `lib.illustrate_set([p1, p2, ...], kind="wide", overlay=brand)` and pass every `url` in `media_urls=[...]`. For a **quote-card of the hook**, skip the model and typeset it: `lib.quote_card("<hook line>", handle="@handle", style="brand")` — crisp text, same `url` flow. Full workflow: `../linkedin-humanizer/sub-skills/illustration.md`. No Pixfaro key -> it drafts the prompt for the user to generate manually.
 7. **Approval card.** Show: formula used, full draft (disclosure line included), char count, the scheduled slot (see §Scheduling window — always a Tue or Wed, 10:00-12:00 local, at least a day out), reaction targets from likely commenters, and the illustration (if any).
 8. **On approval.** Call `lib.publish(kind="post", draft_text=<approved>, target_url="https://www.linkedin.com/post/new/", platforms=[{"platform":"linkedin","platformId":<id>}], scheduled_time=<local_iso>, media_urls=<list_or_None>)`. The wrapper handles Publora / manual / diy routing. When the post is being queued rather than published now, `scheduled_time` is never `None`: compute it per §Scheduling window and pass it as a local-time ISO 8601 string. If the user reconsiders after approving, call `lib.unpublish(post_group_id=<postGroupId from the response>)` to cancel it before it goes out. On the publora tier the post is already queued, so the dashboard is otherwise the only way back.
+
+## Links
+
+Posts carrying a link reach fewer people: LinkedIn favours content that keeps the reader on the platform, so a link in the body costs distribution. The skill therefore treats a link as something the user asks for, never something the draft adds on its own.
+
+**Default: no link.** Do not add a URL to a post because it would be useful, because the post references a product, article, repo, event or signup, or because a CTA feels unfinished without one. Write the close so it works with no link — a question, a P.S., or an offer to reply in the comments.
+
+**When the user asks for a link** (or the voice profile's CTA/link style specifies one):
+
+- Put it in the **first comment**, not the post body, and say on the approval card that it goes there.
+- Keep the body's reference to it plain: "link in the comments" or nothing at all. Do not stack a teaser on top of it.
+- One link. If the user supplies several, ask which one carries the post.
+
+**Not links for this purpose:** an attached image or illustration passed via `media_urls`, an @-mention of a person or company, and the AI disclosure line. None of them costs reach the way a URL does.
+
+**If the post genuinely needs a source** the user did not supply — a statistic, a study, a quote — name the source in words ("AuthoredUp's 3M-post study") rather than linking it. Offer the link for the first comment and let the user decide.
 
 ## Scheduling window
 
@@ -157,6 +173,7 @@ Write the `<text>` to match what actually happened in the session — drafted, c
 Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific rules:
 
 - Never frame LinkedIn as inferior in a LinkedIn post (algo penalty).
+- Never add a link the user did not ask for (see §Links). Links cost reach, and a link the user did not request is the skill padding its own close. When they do ask, it goes in the first comment.
 - Never schedule a post outside Tue/Wed 10:00-12:00 local, and never for the same day it was drafted (see §Scheduling window). Only an explicit user instruction overrides this.
 - Never ship a draft without the AI disclosure line (see §AI disclosure). Append it even when the post is short or the user wrote most of it.
 - Don't name-drop the user's product in a way that reads as self-promo. One mention max, and only when it's the natural conclusion, not the pitch.
@@ -174,7 +191,8 @@ Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific
 - "In today's fast-paced world" openers
 - Rule-of-three lists without receipts
 - "Game-changer", "deep dive", "leverage", "fundamentally"
-- External links in the body
+- Any link the user did not ask for, anywhere in the post
+- A requested link placed in the body instead of the first comment
 - Reused engagement-bait closers ("tag someone who needs this")
 
 ## Resources
