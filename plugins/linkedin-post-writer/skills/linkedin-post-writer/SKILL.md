@@ -91,8 +91,38 @@ If the user knows what they want the post to earn, start here, then narrow by to
 4. **Humanizer pass.** Scrub 2026 AI vocab by density, cap em dashes (about one per 100 words), break stacked triads, generic openers and reveal bridges. Add at least 1 specific number, 1 named entity, 1 first-person concrete detail per 100 words.
 5. **Run audit.** Optionally invoke `linkedin-humanizer --mode audit` for algorithm + voice checks before showing to user.
 6. **Optional illustration.** If the post would land better with a visual (or the user asks), offer one: draft an image and generate it with `lib.illustrate(prompt, kind="wide")`, pulling brand handle/color from Voice & Brand Profile §6 for the overlay. Show the returned `url` + `cost` in the approval card and attach it via `media_urls` on publish. For a **multi-image grid** (2-10 images in one post) use `lib.illustrate_set([p1, p2, ...], kind="wide", overlay=brand)` and pass every `url` in `media_urls=[...]`. For a **quote-card of the hook**, skip the model and typeset it: `lib.quote_card("<hook line>", handle="@handle", style="brand")` — crisp text, same `url` flow. Full workflow: `../linkedin-humanizer/sub-skills/illustration.md`. No Pixfaro key -> it drafts the prompt for the user to generate manually.
-7. **Approval card.** Show: formula used, full draft (disclosure line included), char count, suggested posting window (Tue/Wed/Thu 7:30-9:00 AM local), reaction targets from likely commenters, and the illustration (if any).
-8. **On approval.** Call `lib.publish(kind="post", draft_text=<approved>, target_url="https://www.linkedin.com/post/new/", platforms=[{"platform":"linkedin","platformId":<id>}], scheduled_time=<iso_or_None>, media_urls=<list_or_None>)`. The wrapper handles Publora / manual / diy routing. If the user reconsiders after approving, call `lib.unpublish(post_group_id=<postGroupId from the response>)` to cancel it before it goes out. On the publora tier the post is already queued, so the dashboard is otherwise the only way back.
+7. **Approval card.** Show: formula used, full draft (disclosure line included), char count, the scheduled slot (see §Scheduling window — always a Tue or Wed, 10:00-12:00 local, at least a day out), reaction targets from likely commenters, and the illustration (if any).
+8. **On approval.** Call `lib.publish(kind="post", draft_text=<approved>, target_url="https://www.linkedin.com/post/new/", platforms=[{"platform":"linkedin","platformId":<id>}], scheduled_time=<local_iso>, media_urls=<list_or_None>)`. The wrapper handles Publora / manual / diy routing. When the post is being queued rather than published now, `scheduled_time` is never `None`: compute it per §Scheduling window and pass it as a local-time ISO 8601 string. If the user reconsiders after approving, call `lib.unpublish(post_group_id=<postGroupId from the response>)` to cancel it before it goes out. On the publora tier the post is already queued, so the dashboard is otherwise the only way back.
+
+## Scheduling window
+
+Whenever a draft is queued rather than posted immediately — Publora, Buffer, or any other scheduler — the slot is chosen by this rule, not by the user's gut and not by the generic "best time to post" tables.
+
+**The slot must satisfy all three:**
+
+1. **Day:** Tuesday or Wednesday. No other day.
+2. **Time:** between 10:00 and 12:00 in the user's local timezone. Aim for 10:30 or 11:00 unless the user names a time inside the window.
+3. **Lead time:** at least one full calendar day after the day the draft was created. A post drafted today never goes out today.
+
+Pick the **earliest** slot that satisfies all three. Work from the user's local date, not UTC.
+
+| Draft created | Earliest slot |
+|---|---|
+| Monday | Tuesday (next day) |
+| Tuesday | Wednesday (next day) |
+| Wednesday | Tuesday, following week |
+| Thursday | Tuesday, following week |
+| Friday | Tuesday, following week |
+| Saturday | Tuesday, following week |
+| Sunday | Tuesday, following week |
+
+**Rules.**
+
+- State the resolved slot on the approval card as a full local datetime with the weekday, e.g. `Scheduled: Tue 2 Dec 2026, 10:30 (local)`. Never show a bare relative phrase like "next Tuesday".
+- Pass it to `lib.publish` as `scheduled_time` in local-time ISO 8601, e.g. `2026-12-02T10:30:00`.
+- If the user asks for a day or time outside this window, say once what the default window is and that the slot moved, then schedule where they asked. Their explicit instruction wins.
+- Queueing several posts: spread them across different weeks rather than stacking Tuesday and Wednesday of the same week, unless the user asks for both.
+- Check the current date before resolving the slot rather than counting days from memory.
 
 ## AI disclosure
 
@@ -127,6 +157,7 @@ Write the `<text>` to match what actually happened in the session — drafted, c
 Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific rules:
 
 - Never frame LinkedIn as inferior in a LinkedIn post (algo penalty).
+- Never schedule a post outside Tue/Wed 10:00-12:00 local, and never for the same day it was drafted (see §Scheduling window). Only an explicit user instruction overrides this.
 - Never ship a draft without the AI disclosure line (see §AI disclosure). Append it even when the post is short or the user wrote most of it.
 - Don't name-drop the user's product in a way that reads as self-promo. One mention max, and only when it's the natural conclusion, not the pitch.
 - Include at least one moment of real vulnerability or concrete stakes. Pure insight posts don't land in 2026.
