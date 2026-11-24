@@ -88,11 +88,68 @@ If the user knows what they want the post to earn, start here, then narrow by to
    - 0-2 hashtags, placed at end
    - **No links unless the user asked for one** (see §Links). Links suppress reach, so never add one to round the post off. If the user supplied one, it goes in the first comment, never the body.
    - **AI disclosure, always.** Every post ends with the disclosure line (see "AI disclosure" below). Write the draft so it reads complete without it, then append it.
-4. **Humanizer pass.** Scrub 2026 AI vocab by density, cap em dashes (about one per 100 words), break stacked triads, generic openers and reveal bridges. Add at least 1 specific number, 1 named entity, 1 first-person concrete detail per 100 words.
-5. **Run audit.** Optionally invoke `linkedin-humanizer --mode audit` for algorithm + voice checks before showing to user.
-6. **Optional illustration.** If the post would land better with a visual (or the user asks), offer one: draft an image and generate it with `lib.illustrate(prompt, kind="wide")`, pulling brand handle/color from Voice & Brand Profile §6 for the overlay. Show the returned `url` + `cost` in the approval card and attach it via `media_urls` on publish. For a **multi-image grid** (2-10 images in one post) use `lib.illustrate_set([p1, p2, ...], kind="wide", overlay=brand)` and pass every `url` in `media_urls=[...]`. For a **quote-card of the hook**, skip the model and typeset it: `lib.quote_card("<hook line>", handle="@handle", style="brand")` — crisp text, same `url` flow. Full workflow: `../linkedin-humanizer/sub-skills/illustration.md`. No Pixfaro key -> it drafts the prompt for the user to generate manually.
-7. **Approval card.** Show: formula used, full draft (disclosure line included), char count, the scheduled slot (see §Scheduling window — always a Tue or Wed, 10:00-12:00 local, at least a day out), reaction targets from likely commenters, and the illustration (if any).
-8. **On approval.** Call `lib.publish(kind="post", draft_text=<approved>, target_url="https://www.linkedin.com/post/new/", platforms=[{"platform":"linkedin","platformId":<id>}], scheduled_time=<local_iso>, media_urls=<list_or_None>)`. The wrapper handles Publora / manual / diy routing. When the post is being queued rather than published now, `scheduled_time` is never `None`: compute it per §Scheduling window and pass it as a local-time ISO 8601 string. If the user reconsiders after approving, call `lib.unpublish(post_group_id=<postGroupId from the response>)` to cancel it before it goes out. On the publora tier the post is already queued, so the dashboard is otherwise the only way back.
+4. **Vet the draft.** Before the humanizer touches it, check the draft is true and that it holds together. Every claim must trace to a source, and the argument must actually follow. See §Vetting for the two passes and the failure modes they catch. Anything that fails is rewritten or cut here, not flagged on the approval card and shipped anyway.
+5. **Humanizer pass.** Scrub 2026 AI vocab by density, cap em dashes (about one per 100 words), break stacked triads, generic openers and reveal bridges. Add at least 1 specific number, 1 named entity, 1 first-person concrete detail per 100 words.
+6. **Run audit.** Optionally invoke `linkedin-humanizer --mode audit` for algorithm + voice checks before showing to user.
+7. **Optional illustration.** If the post would land better with a visual (or the user asks), offer one: draft an image and generate it with `lib.illustrate(prompt, kind="wide")`, pulling brand handle/color from Voice & Brand Profile §6 for the overlay. Show the returned `url` + `cost` in the approval card and attach it via `media_urls` on publish. For a **multi-image grid** (2-10 images in one post) use `lib.illustrate_set([p1, p2, ...], kind="wide", overlay=brand)` and pass every `url` in `media_urls=[...]`. For a **quote-card of the hook**, skip the model and typeset it: `lib.quote_card("<hook line>", handle="@handle", style="brand")` — crisp text, same `url` flow. Full workflow: `../linkedin-humanizer/sub-skills/illustration.md`. No Pixfaro key -> it drafts the prompt for the user to generate manually.
+8. **Approval card.** Show: formula used, full draft (disclosure line included), char count, any "verify before posting" claims from §Vetting, the scheduled slot (see §Scheduling window — always a Tue or Wed, 10:00-12:00 local, at least a day out), reaction targets from likely commenters, and the illustration (if any).
+9. **On approval.** Call `lib.publish(kind="post", draft_text=<approved>, target_url="https://www.linkedin.com/post/new/", platforms=[{"platform":"linkedin","platformId":<id>}], scheduled_time=<local_iso>, media_urls=<list_or_None>)`. The wrapper handles Publora / manual / diy routing. When the post is being queued rather than published now, `scheduled_time` is never `None`: compute it per §Scheduling window and pass it as a local-time ISO 8601 string. If the user reconsiders after approving, call `lib.unpublish(post_group_id=<postGroupId from the response>)` to cancel it before it goes out. On the publora tier the post is already queued, so the dashboard is otherwise the only way back.
+
+## Vetting
+
+A LinkedIn post is a public claim under the user's name. A number that turns out to be invented, or an argument that collapses on a reader's first objection, costs more than a weak hook ever does. Run both passes on every draft.
+
+### Pass 1 — factual
+
+Take each factual statement in the draft one at a time: numbers, dates, durations, names, job titles, company facts, outcomes, "most people" style generalisations, and anything attributed to a study or a source.
+
+For each, name where it came from. Legitimate sources are only these:
+
+- the user's own words in this session
+- `../../references/story-bank.md`, when `filled: yes`
+- a five-line spine handed over by `linkedin-interviewer --mode post`
+- a reference file in this skill, cited as what it is (vendor data is vendor data)
+
+Anything with no source is not a claim yet. **Ask the user for it, or cut the sentence.** Never fill the gap with a plausible figure, a rounded-up version of a real one, or a detail that merely fits the story. A hook built on an unsourced number is a hook to throw away, not one to hedge with "roughly" or "around".
+
+Also check, against the source rather than against memory:
+
+- Numbers are reproduced exactly, including the odd precision — £7,412 does not become "about £7.5k", and 31% never becomes "almost half"
+- Dates and durations are consistent with each other and with today's date (a "last March" written in November means a specific month, check it)
+- Named people and companies are spelled and capitalised correctly, and nothing attributed to them is something the user only inferred
+- A claim about a competitor, an employer or a named individual is factual and defensible, never a jab the user did not make
+- Percentages, multiples and currency carry their unit and their base ("3.7x what?", "31% of which population?")
+
+### Pass 2 — logical
+
+Read the draft as a sceptical reader who disagrees:
+
+- **The hook's promise is the body's payload.** If line 1 implies a number, a method or a reversal, that is what arrives — not an adjacent point.
+- **The conclusion follows from the evidence given.** One anecdote supports "this happened to me", not "this is how it works".
+- **Causal claims carry a mechanism.** If the post says X caused Y, the post says how. Without it, write the correlation and stop.
+- **Opposition is stated fairly.** A contrast or false-binary post must describe the view it rejects in terms its holders would recognise. A strawman is the fastest way to lose the comments.
+- **The timeline is coherent.** Events happen in an order that works; the lesson post-dates the mistake.
+- **No contradiction with the user's own earlier posts** when the voice profile or story bank records them.
+- **The close follows from the post.** The closing question is one the post actually raises, not a generic prompt bolted on.
+
+### Failure modes to catch by name
+
+| Failure | How it shows up |
+|---|---|
+| Invented precision | A specific-sounding number nobody supplied |
+| Rounding drift | A real figure restated bigger or cleaner |
+| Survivorship | One win generalised into a rule, the failures unmentioned |
+| Post hoc | Two things in sequence written as cause and effect |
+| Strawman opposition | "Everyone thinks X" where nobody serious thinks X |
+| Borrowed authority | A study named to prop up a point it did not test |
+| Vendor data as fact | MagicPost / AuthoredUp numbers stated as settled research |
+| Overreach | A personal result written as a universal law |
+
+### What to do with what you find
+
+Fix it in the draft. Rewrite the sentence to what the source supports, or cut it. If cutting it guts the post, stop and tell the user which claim is load-bearing and unsourced, and ask for the real figure — that is a better outcome than a published post the user has to walk back.
+
+When the draft reaches the approval card, every claim in it is one the user can defend. If anything survives that the user should double-check — a figure they gave quickly, a date reconstructed from context — list it under the draft as "verify before posting" with the exact line.
 
 ## Links
 
@@ -173,6 +230,7 @@ Write the `<text>` to match what actually happened in the session — drafted, c
 Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific rules:
 
 - Never frame LinkedIn as inferior in a LinkedIn post (algo penalty).
+- Never publish a claim with no source (see §Vetting). Ask the user for the real figure or cut the sentence — never invent, round up or infer one to make a hook work.
 - Never add a link the user did not ask for (see §Links). Links cost reach, and a link the user did not request is the skill padding its own close. When they do ask, it goes in the first comment.
 - Never schedule a post outside Tue/Wed 10:00-12:00 local, and never for the same day it was drafted (see §Scheduling window). Only an explicit user instruction overrides this.
 - Never ship a draft without the AI disclosure line (see §AI disclosure). Append it even when the post is short or the user wrote most of it.
@@ -190,6 +248,8 @@ Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific
 - Em dashes above the cap (more than about one per 100 words)
 - "In today's fast-paced world" openers
 - Rule-of-three lists without receipts
+- Invented or rounded-up numbers, and studies cited for a point they did not test
+- A conclusion a single anecdote does not support, or a strawman version of the opposing view
 - "Game-changer", "deep dive", "leverage", "fundamentally"
 - Any link the user did not ask for, anywhere in the post
 - A requested link placed in the body instead of the first comment

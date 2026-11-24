@@ -92,6 +92,18 @@ Decaying 2023-24 set (delve, tapestry, realm, journey, paradigm, cultivate): cou
 - [ ] Engage on 10-15 others' posts daily with substantive comments
 - [ ] Write from personal experience (validates expertise over marketing)
 
+## Vetting (run before the scrub)
+
+- [ ] Every number, date, name and attributed statistic traces to the user's words, the story bank, the interview spine or a cited reference file
+- [ ] No figure was invented, rounded up or softened with "roughly" to cover a missing source
+- [ ] Numbers are reproduced exactly from the source, with their unit and base intact
+- [ ] The hook's promise is what the body delivers
+- [ ] The conclusion follows from the evidence given; one anecdote is not written as a general rule
+- [ ] Causal claims state a mechanism, otherwise they are written as correlation
+- [ ] The opposing view is stated as its holders would recognise it
+- [ ] The timeline is coherent and the close follows from the post
+- [ ] Anything the user should double-check is listed under the draft as "verify before posting"
+
 ## Links
 
 - [ ] The post contains no URL unless the user asked for one. A link the draft added on its own is removed, and the close rewritten to stand without it
