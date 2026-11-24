@@ -87,17 +87,47 @@ If the user knows what they want the post to earn, start here, then narrow by to
    - Close with a specific question, and add a one-line P.S. when there is a real follow-up (+7.5%)
    - 0-2 hashtags, placed at end
    - No external links in body (move to first comment)
+   - **AI disclosure, always.** Every post ends with the disclosure line (see "AI disclosure" below). Write the draft so it reads complete without it, then append it.
 4. **Humanizer pass.** Scrub 2026 AI vocab by density, cap em dashes (about one per 100 words), break stacked triads, generic openers and reveal bridges. Add at least 1 specific number, 1 named entity, 1 first-person concrete detail per 100 words.
 5. **Run audit.** Optionally invoke `linkedin-humanizer --mode audit` for algorithm + voice checks before showing to user.
 6. **Optional illustration.** If the post would land better with a visual (or the user asks), offer one: draft an image and generate it with `lib.illustrate(prompt, kind="wide")`, pulling brand handle/color from Voice & Brand Profile §6 for the overlay. Show the returned `url` + `cost` in the approval card and attach it via `media_urls` on publish. For a **multi-image grid** (2-10 images in one post) use `lib.illustrate_set([p1, p2, ...], kind="wide", overlay=brand)` and pass every `url` in `media_urls=[...]`. For a **quote-card of the hook**, skip the model and typeset it: `lib.quote_card("<hook line>", handle="@handle", style="brand")` — crisp text, same `url` flow. Full workflow: `../linkedin-humanizer/sub-skills/illustration.md`. No Pixfaro key -> it drafts the prompt for the user to generate manually.
-7. **Approval card.** Show: formula used, full draft, char count, suggested posting window (Tue/Wed/Thu 7:30-9:00 AM local), reaction targets from likely commenters, and the illustration (if any).
+7. **Approval card.** Show: formula used, full draft (disclosure line included), char count, suggested posting window (Tue/Wed/Thu 7:30-9:00 AM local), reaction targets from likely commenters, and the illustration (if any).
 8. **On approval.** Call `lib.publish(kind="post", draft_text=<approved>, target_url="https://www.linkedin.com/post/new/", platforms=[{"platform":"linkedin","platformId":<id>}], scheduled_time=<iso_or_None>, media_urls=<list_or_None>)`. The wrapper handles Publora / manual / diy routing. If the user reconsiders after approving, call `lib.unpublish(post_group_id=<postGroupId from the response>)` to cancel it before it goes out. On the publora tier the post is already queued, so the dashboard is otherwise the only way back.
+
+## AI disclosure
+
+Every post this skill drafts ends with an AI disclosure line. It is not optional and the user does not have to ask for it.
+
+**Placement.** Absolute last line of the post, after the body, after any P.S., after the hashtags. One blank line above it.
+
+**Format.**
+
+```
+AI disclosure: <short, specific description of what AI did> (Anthropic Claude).
+```
+
+Write the `<text>` to match what actually happened in the session — drafted, co-written, edited, structured from the user's notes — in the user's own register, not boilerplate. Keep it under ~12 words, lower-case sentence style, no hedging and no apology.
+
+**Examples.**
+
+- `AI disclosure: drafted with AI, edited by me (Anthropic Claude).`
+- `AI disclosure: structure and first draft from my notes (Anthropic Claude).`
+- `AI disclosure: written by me, tightened with AI (Anthropic Claude).`
+
+**Rules.**
+
+- The line is outside the formula. It never counts toward the hook, the contrast/triple density budget, the em-dash cap or the humanizer's concrete-detail quota.
+- It does count toward the character count shown in the approval card, and toward LinkedIn's 3,000-character limit. Budget ~60 characters for it.
+- Never dress it up as content ("Yes, I used AI. Here's why that matters..."). One flat line, then stop.
+- Never drop it because the post is short, because the user wrote most of it, or because it hurts the close. If the user explicitly asks for a post with no disclosure, say once that the skill appends it by default, then honour their call.
+- If `../../references/voice-profile.md` specifies the user's own disclosure wording, use that wording verbatim instead of the examples above.
 
 ## Hard rules (from user feedback)
 
 Global voice rules: see root `SKILL.md` §Voice rules. Additional skill-specific rules:
 
 - Never frame LinkedIn as inferior in a LinkedIn post (algo penalty).
+- Never ship a draft without the AI disclosure line (see §AI disclosure). Append it even when the post is short or the user wrote most of it.
 - Don't name-drop the user's product in a way that reads as self-promo. One mention max, and only when it's the natural conclusion, not the pitch.
 - Include at least one moment of real vulnerability or concrete stakes. Pure insight posts don't land in 2026.
 - Natural rhythm, not manufactured variance: one genuinely long sentence next to a short one per paragraph is fine; never alternate long/short across the post and never stack fragments (at most 2 standalone fragments per post). Touch a paragraph only if every sentence reads the same flat length.

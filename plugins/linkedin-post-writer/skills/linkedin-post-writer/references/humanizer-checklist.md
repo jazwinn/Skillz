@@ -92,6 +92,13 @@ Decaying 2023-24 set (delve, tapestry, realm, journey, paradigm, cultivate): cou
 - [ ] Engage on 10-15 others' posts daily with substantive comments
 - [ ] Write from personal experience (validates expertise over marketing)
 
+## AI disclosure
+
+- [ ] The post ends with `AI disclosure: <text> (Anthropic Claude).` as its last line, after the body, P.S. and hashtags
+- [ ] The disclosure text describes what AI actually did in this session, under ~12 words, no hedging or apology
+- [ ] The disclosure line is exempt from every scrub above: it does not count toward em-dash caps, vocabulary density, phrase bans or the concrete-detail quota, and it is never rewritten for voice
+- [ ] Its characters are included in the count shown on the approval card
+
 ## Final voice check
 
 - Capitalize all proper names (people, companies, products)
